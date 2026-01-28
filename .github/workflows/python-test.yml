@@ -22,19 +22,19 @@ jobs:
       run: |
         python test_main.py
 
-    - name: 4. 发送邮件通知 (无论成功还是失败都会触发)
-      if: always() # 确保即使步骤3报错了，这一步也会执行
+    - name: 4. 发送邮件通知
+      if: always()
       uses: dawidd6/action-send-mail@v3
       with:
         server_address: smtp.gmail.com
         server_port: 465
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
-        subject: GitHub Actions 任务报告: ${{ job.status }}
-        to: ${{ secrets.EMAIL_USERNAME }} # 发送给自己
-        from: GitHub Actions Robot
+        subject: "GitHub Actions Report: ${{ job.status }}"
+        to: ${{ secrets.EMAIL_USERNAME }}
+        from: "GitHub Actions Robot"
         body: |
-          你好！
-          仓库 ${{ github.repository }} 的构建任务已结束。
-          任务状态：${{ job.status }}
-          查看详情: https://github.com/${{ github.repository }}/actions
+          Hello!
+          The build task for ${{ github.repository }} has finished.
+          Status: ${{ job.status }}
+          View details: https://github.com/${{ github.repository }}/actions
